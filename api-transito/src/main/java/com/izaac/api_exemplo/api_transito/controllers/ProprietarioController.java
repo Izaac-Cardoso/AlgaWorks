@@ -1,6 +1,7 @@
 package com.izaac.api_exemplo.api_transito.controllers;
 
 import com.izaac.api_exemplo.api_transito.models.Proprietario;
+import com.izaac.api_exemplo.api_transito.models.exception.BusinessException;
 import com.izaac.api_exemplo.api_transito.models.service.ProprietarioService;
 import com.izaac.api_exemplo.api_transito.repository.ProprietarioRepository;
 import jakarta.validation.Valid;
@@ -51,5 +52,10 @@ public class ProprietarioController {
     @DeleteMapping("/{idProprietario}")
     public ResponseEntity<Void> deletar(@PathVariable Long idProprietario) {
         return proprietarioService.deletar(idProprietario);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> BadRequestException(BusinessException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
