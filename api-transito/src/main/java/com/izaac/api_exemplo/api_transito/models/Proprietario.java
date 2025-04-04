@@ -14,7 +14,7 @@ public class Proprietario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idProprietario;
 
     @NotBlank
     @Size(max=60)
@@ -34,19 +34,19 @@ public class Proprietario {
     public Proprietario() {
     }
 
-    public Proprietario(Long id, String nome, String email, String telefone) {
-        this.id = id;
+    public Proprietario(Long idProprietario, String nome, String email, String telefone) {
+        this.idProprietario = idProprietario;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long idProprietario) {
+        this.idProprietario = idProprietario;
     }
 
     public Long getId() {
-        return id;
+        return idProprietario;
     }
 
     public String getNome() {
