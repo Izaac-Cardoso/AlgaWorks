@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Veiculo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idVeiculo;
 
     @ManyToOne
@@ -36,6 +36,38 @@ public class Veiculo {
         this.placa = placa;
         this.dataCadastro = dataCadastro;
         this.dataApreensao = dataApreensao;
+    }
+
+    public long getIdVeiculo() {
+        return idVeiculo;
+    }
+
+    public Proprietario getProprietario() {
+        return proprietario;
+    }
+
+    public StatusVeiculo getStatusVeiculo() {
+        return statusVeiculo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public LocalDateTime getDataApreensao() {
+        return dataApreensao;
     }
 
     public void setId(long idVeiculo) {

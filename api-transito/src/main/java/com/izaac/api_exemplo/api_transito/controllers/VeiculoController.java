@@ -3,6 +3,7 @@ package com.izaac.api_exemplo.api_transito.controllers;
 import com.izaac.api_exemplo.api_transito.models.Veiculo;
 import com.izaac.api_exemplo.api_transito.models.service.VeiculoService;
 import com.izaac.api_exemplo.api_transito.repository.VeiculoRepositorio;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,12 @@ public class VeiculoController {
         return veiculoRepositorio.findById(idVeiculo)
                 .map(veiculo -> ResponseEntity.ok(veiculo))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Veiculo cadastrar(@RequestBody Veiculo veiculo) {
+        return veiculoService.inserir(veiculo);
     }
 
     @PutMapping("/{idVeiculo}")
