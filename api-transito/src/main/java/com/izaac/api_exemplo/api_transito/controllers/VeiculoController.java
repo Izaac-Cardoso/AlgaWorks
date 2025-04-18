@@ -1,8 +1,10 @@
 package com.izaac.api_exemplo.api_transito.controllers;
 
-import com.izaac.api_exemplo.api_transito.models.Veiculo;
-import com.izaac.api_exemplo.api_transito.models.service.VeiculoService;
-import com.izaac.api_exemplo.api_transito.repository.VeiculoRepositorio;
+import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
+import com.izaac.api_exemplo.api_transito.domain.exception.BusinessException;
+import com.izaac.api_exemplo.api_transito.domain.service.VeiculoService;
+import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +38,8 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Veiculo cadastrar(@RequestBody Veiculo veiculo) {
-        return veiculoService.inserir(veiculo);
+    public Veiculo cadastrar(@Valid @RequestBody Veiculo veiculo) {
+        return veiculoService.cadastrar(veiculo);
     }
 
     @PutMapping("/{idVeiculo}")
@@ -49,6 +51,11 @@ public class VeiculoController {
     @DeleteMapping("/{idVeiculo}")
     public ResponseEntity<Void> deletar(@PathVariable Long idVeiculo) {
         return veiculoService.delete(idVeiculo);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> badRequestException(BusinessException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }

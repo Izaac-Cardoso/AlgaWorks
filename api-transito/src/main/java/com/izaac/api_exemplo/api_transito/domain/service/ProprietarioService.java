@@ -1,11 +1,12 @@
-package com.izaac.api_exemplo.api_transito.models.service;
+package com.izaac.api_exemplo.api_transito.domain.service;
 
-import com.izaac.api_exemplo.api_transito.models.Proprietario;
-import com.izaac.api_exemplo.api_transito.models.exception.BusinessException;
-import com.izaac.api_exemplo.api_transito.repository.ProprietarioRepository;
-import jakarta.transaction.Transactional;
+import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
+import com.izaac.api_exemplo.api_transito.domain.exception.BusinessException;
+import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProprietarioService {

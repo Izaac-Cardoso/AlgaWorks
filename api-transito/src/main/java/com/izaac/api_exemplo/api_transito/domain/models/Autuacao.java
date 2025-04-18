@@ -1,4 +1,4 @@
-package com.izaac.api_exemplo.api_transito.models;
+package com.izaac.api_exemplo.api_transito.domain.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

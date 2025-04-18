@@ -1,19 +1,19 @@
-package com.izaac.api_exemplo.api_transito.models;
+package com.izaac.api_exemplo.api_transito.domain.models;
 
+import com.izaac.api_exemplo.api_transito.domain.validation.ValidationProprietarioId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Validation;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Proprietario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(groups = ValidationProprietarioId.class)
     private Long idProprietario;
 
     @NotBlank
