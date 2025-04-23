@@ -1,7 +1,7 @@
 package com.izaac.api_exemplo.api_transito.domain.service;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
-import com.izaac.api_exemplo.api_transito.domain.exception.BusinessException;
+import com.izaac.api_exemplo.api_transito.exceptionHandler.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
 
 import org.springframework.http.ResponseEntity;

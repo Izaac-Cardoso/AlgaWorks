@@ -16,16 +16,16 @@ public class Proprietario {
     @NotNull(groups = ValidationProprietarioId.class)
     private Long idProprietario;
 
-    @NotBlank
+    @NotBlank//(message = "Informe um nome de proprietário")
     @Size(max=60)
     private String nome;
 
-    @NotBlank
+    @NotBlank//(message = "O e-mail deve ser bem formatado")
     @Size(max=200)
     @Email
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Informe um número de contato")
     @Size(max=20)
     private String telefone;
 

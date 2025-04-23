@@ -3,12 +3,14 @@ package com.izaac.api_exemplo.api_transito.domain.service;
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
 import com.izaac.api_exemplo.api_transito.domain.models.StatusVeiculo;
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
-import com.izaac.api_exemplo.api_transito.domain.exception.BusinessException;
+import com.izaac.api_exemplo.api_transito.exceptionHandler.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
 import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
@@ -26,10 +28,9 @@ public class VeiculoService {
     private boolean validaPlaca(Veiculo veiculo) {
         boolean placaEmUso;
         return placaEmUso = veiculoRepositorio.findByPlaca(veiculo.getPlaca())
-                .filter(v -> v.equals(veiculo))
+                .filter(v -> !v.equals(veiculo))
                 .isPresent();
     }
-
 
     @Transactional
     public Veiculo cadastrar(Veiculo veiculo) {

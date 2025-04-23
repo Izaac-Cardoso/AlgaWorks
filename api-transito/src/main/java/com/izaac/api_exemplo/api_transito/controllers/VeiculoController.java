@@ -1,7 +1,6 @@
 package com.izaac.api_exemplo.api_transito.controllers;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
-import com.izaac.api_exemplo.api_transito.domain.exception.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.service.VeiculoService;
 import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
 import jakarta.validation.Valid;
@@ -52,10 +51,4 @@ public class VeiculoController {
     public ResponseEntity<Void> deletar(@PathVariable Long idVeiculo) {
         return veiculoService.delete(idVeiculo);
     }
-
-    @ExceptionHandler
-    public ResponseEntity<String> badRequestException(BusinessException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
 }
