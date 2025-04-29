@@ -3,6 +3,7 @@ package com.izaac.api_exemplo.api_transito.domain.service;
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
 import com.izaac.api_exemplo.api_transito.domain.models.StatusVeiculo;
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
+import com.izaac.api_exemplo.api_transito.dto.VeiculoDTO;
 import com.izaac.api_exemplo.api_transito.exceptionHandler.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
 import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Service
 public class VeiculoService {
@@ -40,7 +41,7 @@ public class VeiculoService {
 
         veiculo.setProprietario(proprietario);
         veiculo.setStatusVeiculo(StatusVeiculo.REGULAR);
-        veiculo.setDataCadastro(LocalDateTime.now());
+        veiculo.setDataCadastro(OffsetDateTime.now());
 
         if(validaPlaca(veiculo)) {
             throw new BusinessException("Já existe um veículo cadastrado com essa placa.");
