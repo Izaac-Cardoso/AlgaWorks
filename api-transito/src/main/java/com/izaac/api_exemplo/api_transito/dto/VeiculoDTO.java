@@ -1,15 +1,15 @@
 package com.izaac.api_exemplo.api_transito.dto;
 
-import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
 import com.izaac.api_exemplo.api_transito.domain.models.StatusVeiculo;
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
+import org.springframework.http.ResponseEntity;
 
 import java.time.OffsetDateTime;
 
 public class VeiculoDTO {
 
     private Long id;
-    private Proprietario proprietario;
+    private String proprietario;
     private StatusVeiculo statusVeiculo;
     private String marca;
     private String modelo;
@@ -28,26 +28,61 @@ public class VeiculoDTO {
         this.dataApreensao = builder.dataApreensao;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getProprietario() {
+        return proprietario;
+    }
+
+    public StatusVeiculo getStatusVeiculo() {
+        return statusVeiculo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public OffsetDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public OffsetDateTime getDataApreensao() {
+        return dataApreensao;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
-    public static VeiculoDTO ofEntity(Veiculo veiculo) {
-        return VeiculoDTO.builder()
-                .id(veiculo.getIdVeiculo())
-                .proprietario(veiculo.getProprietario())
-                .statusVeiculo(veiculo.getStatusVeiculo())
-                .marca(veiculo.getMarca())
-                .modelo(veiculo.getModelo())
-                .placa(veiculo.getPlaca())
-                .dataCadastro(veiculo.getDataCadastro())
-                .dataApreensao(veiculo.getDataApreensao())
-                .build();
+    public static ResponseEntity<VeiculoDTO> ofEntity(Veiculo veiculo) {
+        var veiculoDTO = VeiculoDTO.builder()
+                            .id(veiculo.getIdVeiculo())
+                            .proprietario(veiculo.getProprietario().getNome())
+                            .statusVeiculo(veiculo.getStatusVeiculo())
+                            .marca(veiculo.getMarca())
+                            .modelo(veiculo.getModelo())
+                            .placa(veiculo.getPlaca())
+                            .dataCadastro(veiculo.getDataCadastro())
+                            .dataApreensao(veiculo.getDataApreensao())
+                            .build();
+
+        return ResponseEntity.ok(veiculoDTO);
     }
 
     public static class Builder {
+
         private Long id;
-        private Proprietario proprietario;
+        private String proprietario;
         private StatusVeiculo statusVeiculo;
         private String marca;
         private String modelo;
@@ -60,7 +95,7 @@ public class VeiculoDTO {
             return this;
         }
 
-        public Builder proprietario(Proprietario proprietario) {
+        public Builder proprietario(String proprietario) {
             this.proprietario = proprietario;
             return this;
         }

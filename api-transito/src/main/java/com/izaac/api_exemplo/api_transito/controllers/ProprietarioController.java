@@ -3,12 +3,14 @@ package com.izaac.api_exemplo.api_transito.controllers;
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
 import com.izaac.api_exemplo.api_transito.domain.service.ProprietarioService;
 import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
+import com.izaac.api_exemplo.api_transito.dto.ProprietarioDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/proprietario")
@@ -23,15 +25,19 @@ public class ProprietarioController {
     }
 
     @GetMapping
-    public List<Proprietario> listar() {
-        return proprietarioRepository.findAll();
+    public List<ResponseEntity<ProprietarioDTO>> listar() {
+        return proprietarioRepository.findAll().stream()
+                                .map(ProprietarioDTO::ofEntity)
+                                .collect(Collectors.toList());
     }
 
     @GetMapping("/{idProprietario}")
-    public ResponseEntity<Proprietario> buscar(@PathVariable Long idProprietario) {
-        return proprietarioRepository.findById(idProprietario)
-                .map(proprietario -> ResponseEntity.ok(proprietario))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ProprietarioDTO> buscar(@PathVariable Long idProprietario) {
+        Proprietario proprietario = proprietarioRepository.findById(idProprietario)
+                                    .map(ResponseEntity::ok)
+                                    .orElse(ResponseEntity.notFound().build()).getBody();
+
+        return ProprietarioDTO.ofEntity(proprietario);
     }
 
     @PostMapping

@@ -29,8 +29,6 @@ public class Proprietario {
     @Size(max=20)
     private String telefone;
 
-    //private Veiculo veiculo;
-
     public Proprietario() {
     }
 

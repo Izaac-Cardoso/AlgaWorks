@@ -3,12 +3,14 @@ package com.izaac.api_exemplo.api_transito.controllers;
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
 import com.izaac.api_exemplo.api_transito.domain.service.VeiculoService;
 import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
+import com.izaac.api_exemplo.api_transito.dto.VeiculoDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/veiculo")
@@ -29,10 +31,12 @@ public class VeiculoController {
     }
 
     @GetMapping("/{idVeiculo}")
-    public ResponseEntity<Veiculo> findById(@PathVariable Long idVeiculo) {
-        return veiculoRepositorio.findById(idVeiculo)
-                .map(veiculo -> ResponseEntity.ok(veiculo))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<VeiculoDTO> findById(@PathVariable Long idVeiculo) {
+        Veiculo veiculo = veiculoRepositorio.findById(idVeiculo)
+                          .map(ResponseEntity::ok)
+                          .orElse(ResponseEntity.notFound().build()).getBody();
+
+        return VeiculoDTO.ofEntity(veiculo);
     }
 
     @PostMapping
