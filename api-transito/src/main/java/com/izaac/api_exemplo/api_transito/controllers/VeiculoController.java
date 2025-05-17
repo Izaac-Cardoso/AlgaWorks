@@ -2,53 +2,61 @@ package com.izaac.api_exemplo.api_transito.controllers;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
 import com.izaac.api_exemplo.api_transito.domain.service.VeiculoService;
-import com.izaac.api_exemplo.api_transito.domain.repository.VeiculoRepositorio;
 import com.izaac.api_exemplo.api_transito.dto.VeiculoDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/veiculo")
 public class VeiculoController {
 
-    private final VeiculoRepositorio veiculoRepositorio;
     private final VeiculoService veiculoService;
 
-
-    public VeiculoController(VeiculoRepositorio veiculoRepositorio, VeiculoService veiculoService) {
-        this.veiculoRepositorio = veiculoRepositorio;
+    public VeiculoController(VeiculoService veiculoService) {
         this.veiculoService = veiculoService;
     }
 
     @GetMapping
-    public List<Veiculo> listar() {
-        return veiculoRepositorio.findAll();
+    public ResponseEntity<List<VeiculoDTO>> listar() {
+        List<VeiculoDTO> veiculosDTO = veiculoService.listaCompleta();
+        return ResponseEntity.ok(veiculosDTO);
     }
 
-    @GetMapping("/{idVeiculo}")
-    public ResponseEntity<VeiculoDTO> findById(@PathVariable Long idVeiculo) {
-        Veiculo veiculo = veiculoRepositorio.findById(idVeiculo)
-                          .map(ResponseEntity::ok)
-                          .orElse(ResponseEntity.notFound().build()).getBody();
-
-        return VeiculoDTO.ofEntity(veiculo);
+    @GetMapping("/{id}")
+    public ResponseEntity<VeiculoDTO> buscar(@PathVariable Long id) {
+        VeiculoDTO veiculoDTO = veiculoService.buscarPorId(id);
+        return ResponseEntity.ok(veiculoDTO);
     }
+
+
+//    @GetMapping("/{idVeiculo}")
+//    public ResponseEntity<VeiculoDTO> buscar(@PathVariable Long idVeiculo) {
+//        Veiculo veiculo = veiculoService.buscarPorId(idVeiculo)
+//                          .map(ResponseEntity::ok)
+//                          .orElse(ResponseEntity.notFound().build()).getBody();
+//
+//        var veiculoDTO = VeiculoDTO.ofEntity(veiculo);
+//        return ResponseEntity.ok(veiculoDTO);
+//    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Veiculo cadastrar(@Valid @RequestBody Veiculo veiculo) {
-        return veiculoService.cadastrar(veiculo);
+    public VeiculoDTO cadastrar(@Valid @RequestBody Veiculo veiculo) {
+        return VeiculoDTO.ofEntity(veiculoService.cadastrar(veiculo));
     }
 
     @PutMapping("/{idVeiculo}")
-    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable Long idVeiculo, @RequestBody Veiculo veiculo) {
+    public ResponseEntity<VeiculoDTO> atualizarVeiculo(@PathVariable Long idVeiculo, @RequestBody Veiculo veiculo) {
         veiculo.setId(idVeiculo);
-        return veiculoService.atualizarVeiculo(idVeiculo, veiculo);
+        var veiculoAtualizado = veiculoService.atualizarVeiculo(idVeiculo, veiculo);
+        return ResponseEntity.ok(veiculoAtualizado);
     }
 
     @DeleteMapping("/{idVeiculo}")

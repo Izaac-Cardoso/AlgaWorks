@@ -2,7 +2,6 @@ package com.izaac.api_exemplo.api_transito.controllers;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
 import com.izaac.api_exemplo.api_transito.domain.service.ProprietarioService;
-import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
 import com.izaac.api_exemplo.api_transito.dto.ProprietarioDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,34 +15,33 @@ import java.util.stream.Collectors;
 @RequestMapping("/proprietario")
 public class ProprietarioController {
 
-    private final ProprietarioRepository proprietarioRepository;
     private final ProprietarioService proprietarioService;
 
-    public ProprietarioController(ProprietarioRepository proprietarioRepository, ProprietarioService proprietarioService) {
-        this.proprietarioRepository = proprietarioRepository;
+    public ProprietarioController(ProprietarioService proprietarioService) {
         this.proprietarioService = proprietarioService;
     }
 
     @GetMapping
-    public List<ResponseEntity<ProprietarioDTO>> listar() {
-        return proprietarioRepository.findAll().stream()
+    public List<ProprietarioDTO> listar() {
+        return proprietarioService.listaCompleta().stream()
                                 .map(ProprietarioDTO::ofEntity)
                                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{idProprietario}")
     public ResponseEntity<ProprietarioDTO> buscar(@PathVariable Long idProprietario) {
-        Proprietario proprietario = proprietarioRepository.findById(idProprietario)
+        Proprietario proprietario = proprietarioService.buscarPorId(idProprietario)
                                     .map(ResponseEntity::ok)
                                     .orElse(ResponseEntity.notFound().build()).getBody();
 
-        return ProprietarioDTO.ofEntity(proprietario);
+        var proprietarioDTO = ProprietarioDTO.ofEntity(proprietario);
+        return ResponseEntity.ok(proprietarioDTO);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Proprietario inserir(@Valid @RequestBody Proprietario proprietario) {
-        return proprietarioService.salvar(proprietario);
+    public ProprietarioDTO inserir(@Valid @RequestBody Proprietario proprietario) {
+        return ProprietarioDTO.ofEntity(proprietarioService.salvar(proprietario));
     }
 
     @PutMapping("/{idProprietario}")

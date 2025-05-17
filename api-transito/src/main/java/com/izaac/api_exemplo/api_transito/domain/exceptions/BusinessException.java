@@ -1,4 +1,4 @@
-package com.izaac.api_exemplo.api_transito.exceptionHandler;
+package com.izaac.api_exemplo.api_transito.domain.exceptions;
 
 public class BusinessException extends RuntimeException {
 

@@ -10,8 +10,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.groups.ConvertGroup;
 import jakarta.validation.groups.Default;
+import org.springframework.http.ResponseEntity;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Veiculo {
@@ -44,6 +48,9 @@ public class Veiculo {
     @JsonProperty(access = Access.READ_ONLY)
     private OffsetDateTime dataApreensao;
 
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL)
+    private List<Autuacao> autuacaos = new ArrayList<>();
+
     public Veiculo() {
     }
 
@@ -64,6 +71,13 @@ public class Veiculo {
 
     public void setProprietario(Proprietario proprietario) {
         this.proprietario = proprietario;
+    }
+
+    public Autuacao cadastraAutuacao(Autuacao autuacao) {
+        autuacao.setDataOcorrencia(OffsetDateTime.now());
+        autuacao.setVeiculo(this);
+        autuacaos.add(autuacao);
+        return autuacao;
     }
 
     public void setDataCadastro(OffsetDateTime dataCadastro) {

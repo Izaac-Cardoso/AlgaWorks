@@ -1,12 +1,15 @@
 package com.izaac.api_exemplo.api_transito.domain.service;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Proprietario;
-import com.izaac.api_exemplo.api_transito.exceptionHandler.BusinessException;
+import com.izaac.api_exemplo.api_transito.domain.exceptions.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.repository.ProprietarioRepository;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProprietarioService {
@@ -15,6 +18,14 @@ public class ProprietarioService {
 
     public ProprietarioService(ProprietarioRepository proprietarioRepository) {
         this.proprietarioRepository = proprietarioRepository;
+    }
+
+    public List<Proprietario> listaCompleta() {
+        return proprietarioRepository.findAll();
+    }
+
+    public Optional<Proprietario> buscarPorId(Long idProprietario) {
+        return proprietarioRepository.findById(idProprietario);
     }
 
     @Transactional

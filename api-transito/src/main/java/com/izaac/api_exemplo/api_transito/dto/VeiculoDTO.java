@@ -64,7 +64,7 @@ public class VeiculoDTO {
         return new Builder();
     }
 
-    public static ResponseEntity<VeiculoDTO> ofEntity(Veiculo veiculo) {
+    public static VeiculoDTO ofEntity(Veiculo veiculo) {
         var veiculoDTO = VeiculoDTO.builder()
                             .id(veiculo.getIdVeiculo())
                             .proprietario(veiculo.getProprietario().getNome())
@@ -76,7 +76,7 @@ public class VeiculoDTO {
                             .dataApreensao(veiculo.getDataApreensao())
                             .build();
 
-        return ResponseEntity.ok(veiculoDTO);
+        return veiculoDTO;
     }
 
     public static class Builder {

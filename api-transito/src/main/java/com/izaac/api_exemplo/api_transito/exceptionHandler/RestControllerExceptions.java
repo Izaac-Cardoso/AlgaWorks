@@ -1,7 +1,8 @@
 package com.izaac.api_exemplo.api_transito.exceptionHandler;
 
 
-import org.apache.coyote.BadRequestException;
+import com.izaac.api_exemplo.api_transito.domain.exceptions.BusinessException;
+import com.izaac.api_exemplo.api_transito.domain.exceptions.RecursoNaoEncontradoException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.DateTimeException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -47,6 +47,13 @@ public class RestControllerExceptions extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ProblemDetail badRequestHandle(BusinessException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle(e.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    public ProblemDetail entidadeNaoEncontradaHandle(RecursoNaoEncontradoException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle(e.getMessage());
         return problemDetail;
     }
