@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 public class Autuacao {
 
     @Id
+    @Column(name = "id_autuacao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

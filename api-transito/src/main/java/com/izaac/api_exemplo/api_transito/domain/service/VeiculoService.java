@@ -34,6 +34,7 @@ public class VeiculoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public VeiculoDTO buscarPorId(Long idVeiculo) {
         Veiculo veiculo = veiculoRepositorio.findById(idVeiculo)
                 .map(ResponseEntity::ok)
