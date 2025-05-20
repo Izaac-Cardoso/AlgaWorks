@@ -31,7 +31,6 @@ public class VeiculoDTO {
         this.dataCadastro = builder.dataCadastro;
         this.dataApreensao = builder.dataApreensao;
         this.autuacoes = builder.autuacaoList;
-
     }
 
     public Long getId() {

@@ -2,6 +2,7 @@ package com.izaac.api_exemplo.api_transito.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.izaac.api_exemplo.api_transito.domain.exceptions.BusinessException;
 import com.izaac.api_exemplo.api_transito.domain.validation.ValidationProprietarioId;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -62,19 +63,43 @@ public class Veiculo {
         this.dataApreensao = dataApreensao;
     }
 
+    public Autuacao cadastraAutuacao(Autuacao autuacao) {
+        autuacao.setDataOcorrencia(OffsetDateTime.now());
+        autuacao.setVeiculo(this);
+        autuacaos.add(autuacao);
+        return autuacao;
+    }
+
+    private boolean statusDoVeiculo() {
+        return StatusVeiculo.APREENDIDO.equals(getStatusVeiculo());
+    }
+
+    public void apreender() {
+        if(statusDoVeiculo()) {
+            throw new BusinessException("Esse veículo já está apreendido!");
+        }
+
+        setStatusVeiculo(StatusVeiculo.APREENDIDO);
+        setDataApreensao(OffsetDateTime.now());
+        //return this;
+    }
+
+    public void removerApreensao() {
+        if(!statusDoVeiculo()) {
+            throw new BusinessException("Esse veículo não está apreendido");
+        }
+
+        setStatusVeiculo(StatusVeiculo.REGULAR);
+        setDataApreensao(null);
+        //return this;
+    }
+
     public void setId(long idVeiculo) {
         this.idVeiculo = idVeiculo;
     }
 
     public void setProprietario(Proprietario proprietario) {
         this.proprietario = proprietario;
-    }
-
-    public Autuacao cadastraAutuacao(Autuacao autuacao) {
-        autuacao.setDataOcorrencia(OffsetDateTime.now());
-        autuacao.setVeiculo(this);
-        autuacaos.add(autuacao);
-        return autuacao;
     }
 
     public void setDataCadastro(OffsetDateTime dataCadastro) {
