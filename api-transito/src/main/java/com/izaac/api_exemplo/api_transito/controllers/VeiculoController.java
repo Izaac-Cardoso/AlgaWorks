@@ -1,6 +1,7 @@
 package com.izaac.api_exemplo.api_transito.controllers;
 
 import com.izaac.api_exemplo.api_transito.domain.models.Veiculo;
+import com.izaac.api_exemplo.api_transito.domain.service.ApreensaoService;
 import com.izaac.api_exemplo.api_transito.domain.service.VeiculoService;
 import com.izaac.api_exemplo.api_transito.dto.VeiculoDTO;
 import jakarta.validation.Valid;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class VeiculoController {
 
     private final VeiculoService veiculoService;
+    private final ApreensaoService apreensaoService;
 
-    public VeiculoController(VeiculoService veiculoService) {
+    public VeiculoController(VeiculoService veiculoService, ApreensaoService apreensaoService) {
         this.veiculoService = veiculoService;
+        this.apreensaoService = apreensaoService;
     }
 
     @GetMapping
@@ -62,5 +65,17 @@ public class VeiculoController {
     @DeleteMapping("/{idVeiculo}")
     public ResponseEntity<Void> deletar(@PathVariable Long idVeiculo) {
         return veiculoService.delete(idVeiculo);
+    }
+
+    @PutMapping("/{idVeiculo}/autuacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void apreender(@PathVariable Long idVeiculo) {
+        apreensaoService.apreenderVeiculo(idVeiculo);
+    }
+
+    @DeleteMapping("/{idVeiculo}/autuacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removerApreensao(@PathVariable Long idVeiculo) {
+        apreensaoService.removeApreensao(idVeiculo);
     }
 }

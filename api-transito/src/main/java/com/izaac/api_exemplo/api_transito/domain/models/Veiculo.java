@@ -79,9 +79,8 @@ public class Veiculo {
             throw new BusinessException("Esse veículo já está apreendido!");
         }
 
-        setStatusVeiculo(StatusVeiculo.APREENDIDO);
-        setDataApreensao(OffsetDateTime.now());
-        //return this;
+        this.setStatusVeiculo(StatusVeiculo.APREENDIDO);
+        this.setDataApreensao(OffsetDateTime.now());
     }
 
     public void removerApreensao() {
@@ -89,9 +88,8 @@ public class Veiculo {
             throw new BusinessException("Esse veículo não está apreendido");
         }
 
-        setStatusVeiculo(StatusVeiculo.REGULAR);
-        setDataApreensao(null);
-        //return this;
+        this.setStatusVeiculo(StatusVeiculo.REGULAR);
+        this.setDataApreensao(null);
     }
 
     public void setId(long idVeiculo) {
